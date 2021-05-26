@@ -178,4 +178,32 @@ describe("GildedRose shop manager", function () {
       expect(items[idx].sellIn).toBe(testCase.sellIn);
     });
   });
+
+  it("Object name containing the prefix 'Conjured' downgrade twice faster than normal object", function () {
+    listItems.push(new Item("Conjured Dark Blade", 10, 10));
+    listItems.push(new Item("Conjured Magic Stick", 15, 20));
+    listItems.push(new Item("Magic Stick Conjured", -5, 20));
+    listItems.push(new Item("Dark Blade Conjured", -1, 20));
+    listItems.push(new Item("Dark Blade Conjured", 5, -5));
+    listItems.push(new Item("Dark Blade Conjured", 5, 60));
+
+    const gildedRose = new Shop(listItems);
+    const items = gildedRose.updateQuality();
+
+    var expected = [
+      { sellIn: 9, quality: 8 },
+      { sellIn: 14, quality: 18 },
+      { sellIn: -6, quality: 16 },
+      { sellIn: -2, quality: 16 },
+      { sellIn: 4, quality: 0 },
+      { sellIn: 4, quality: 50 }
+
+    ];
+    expected.forEach(function (testCase, idx) {
+      expect(items[idx].quality).toBe(testCase.quality);
+      expect(items[idx].sellIn).toBe(testCase.sellIn);
+    });
+  });
+
+
 });

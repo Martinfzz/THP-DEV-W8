@@ -21,14 +21,14 @@ class Shop {
       if (element.name != this.specialItems.brie && element.name != this.specialItems.backstage && element.name != this.specialItems.sulfuras) {
         if (element.sellIn >= 0) {
           if (element.quality < 50 && element.quality > 0) {
-            element.quality = element.quality - 1;
+            element.name.toLowerCase().includes("conjured") ? element.quality = element.quality - 2 : element.quality = element.quality - 1;
           } else if (element.quality >= 50) {
             element.quality = 50;
           } else {
             element.quality = 0;
           }
         } else {
-          element.quality = element.quality - 2;
+          element.name.toLowerCase().includes("conjured") ? element.quality = element.quality - 4 : element.quality = element.quality - 2
         }
       } else if (element.quality < 50 && (element.name == this.specialItems.backstage || element.name == this.specialItems.brie)) {
         if (element.sellIn >= 11) {
