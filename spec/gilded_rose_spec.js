@@ -86,6 +86,8 @@ describe("GildedRose shop manager", function () {
     listItems.push(new Item("Sulfuras, Hand of Ragnaros", 15, 80));
     listItems.push(new Item("Sulfuras, Hand of Ragnaros", 10, 80));
     listItems.push(new Item("Sulfuras, Hand of Ragnaros", 5, 80));
+    listItems.push(new Item("Sulfuras, Hand of Ragnaros", 5, -5));
+    listItems.push(new Item("Sulfuras, Hand of Ragnaros", -5, 80));
 
     const gildedRose = new Shop(listItems);
     const items = gildedRose.updateQuality();
@@ -93,7 +95,9 @@ describe("GildedRose shop manager", function () {
     var expected = [
       { sellIn: 15, quality: 80 },
       { sellIn: 10, quality: 80 },
-      { sellIn: 5, quality: 80 }
+      { sellIn: 5, quality: 80 },
+      { sellIn: 5, quality: 80 },
+      { sellIn: -5, quality: 80 }
     ];
     expected.forEach(function (testCase, idx) {
       expect(items[idx].quality).toBe(testCase.quality);
@@ -120,16 +124,16 @@ describe("GildedRose shop manager", function () {
     });
   });
 
-  it("When sellIn is under 0, the quality downgrade two time faster", function () {
+  it("When sellIn is under 0, the quality downgrade twice faster", function () {
     listItems.push(new Item("Normal object", -5, 10));
-    listItems.push(new Item("Normal object", 0, 10));
+    listItems.push(new Item("Normal object", -1, 10));
 
     const gildedRose = new Shop(listItems);
     const items = gildedRose.updateQuality();
 
     var expected = [
       { sellIn: -6, quality: 8 },
-      { sellIn: -1, quality: 8 }
+      { sellIn: -2, quality: 8 }
     ];
     expected.forEach(function (testCase, idx) {
       expect(items[idx].quality).toBe(testCase.quality);
@@ -140,11 +144,15 @@ describe("GildedRose shop manager", function () {
   it("Quality is never negative", function () {
     listItems.push(new Item("Normal object", 10, 0));
     listItems.push(new Item("Normal object", 10, -2));
+    listItems.push(new Item("Aged Brie", 10, -5));
+    listItems.push(new Item("Backstage passes to a TAFKAL80ETC concert", 10, -5));
 
     const gildedRose = new Shop(listItems);
     const items = gildedRose.updateQuality();
 
     var expected = [
+      { sellIn: 9, quality: 0 },
+      { sellIn: 9, quality: 0 },
       { sellIn: 9, quality: 0 },
       { sellIn: 9, quality: 0 }
     ];
@@ -170,6 +178,4 @@ describe("GildedRose shop manager", function () {
       expect(items[idx].sellIn).toBe(testCase.sellIn);
     });
   });
-
-
 });
