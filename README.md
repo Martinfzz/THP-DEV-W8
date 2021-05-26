@@ -1,4 +1,12 @@
 # Projet : Gilded Rose
+
+## How it works ?
+
+`npm i`
+
+`npm test`
+
+## The project
   
 Gilded Rose
 1. Introduction
